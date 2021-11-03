@@ -1,0 +1,79 @@
+// CREATE DATABASE social_profile;
+
+USE social_profile;
+
+CREATE TABLE user_login_details
+(
+  username VARCHAR(256) NOT NULL UNIQUE,
+  password VARCHAR(256) NOT NULL,
+  reset_token VARCHAR(256),
+  PRIMARY KEY (username)
+);
+
+CREATE TABLE users
+(
+  id VARCHAR(256) NOT NULL,
+  username VARCHAR(256) NOT NULL UNIQUE,
+  email VARCHAR(256) NOT NULL UNIQUE,
+  Name VARCHAR(256) NOT NULL,
+  Mobile VARCHAR(256),
+  DOB DATETIME,
+  PRIMARY KEY (id),
+  FOREIGN KEY (username) REFERENCES user_login_details(username)
+);
+
+CREATE TABLE profile_status
+(
+  id VARCHAR(256) NOT NULL,
+  user_id VARCHAR(256) NOT NULL,
+  timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  text VARCHAR(256) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE friends
+(
+  id VARCHAR(256) NOT NULL,
+  user1 VARCHAR(256) NOT NULL,
+  user2 VARCHAR(256) NOT NULL,
+  timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user1) REFERENCES users(id),
+  FOREIGN KEY (user2) REFERENCES users(id)
+);
+
+CREATE TABLE posts
+(
+  id VARCHAR(256) NOT NULL,
+  user_id VARCHAR(256) NOT NULL,
+  img_link VARCHAR(256),
+  caption VARCHAR(256),
+  timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE likes
+(
+  id VARCHAR(256) NOT NULL,
+  post_id VARCHAR(256) NOT NULL,
+  liked_by VARCHAR(256) NOT NULL,
+  timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (post_id) REFERENCES posts(id),
+  FOREIGN KEY (liked_by) REFERENCES users(id)
+);
+
+CREATE TABLE comments
+(
+  id VARCHAR(256) NOT NULL,
+  post_id VARCHAR(256) NOT NULL,
+  comment VARCHAR(256) NOT NULL,
+  commented_by VARCHAR(256) NOT NULL,
+  timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (post_id) REFERENCES posts(id),
+  FOREIGN KEY (commented_by) REFERENCES users(id)
+);
+

@@ -1,0 +1,29 @@
+1. in friends table list the data which are matched with user profile id
+=> 
+select u1.Name as User1, u2.Name as User2
+from users as u1 inner join friends inner join users as u2
+on friends.user1=u1.id and friends.user2=u2.id
+
+2. display all posts of user_id 5
+=>
+select * from posts
+where user_id=5;
+
+3. write a query that matches the the word with %gmail%
+=>
+select * from users
+where email like "%gmail%";
+
+
+4. limit the display data from the table comments to 5 which belongs to user 3
+=>
+select * from comments
+where commented_by=3
+limit 5;
+
+
+5. combine profile_status and users and user_login_details displaying matching records
+=> 
+select * 
+from profile_status inner join users inner join user_login_details
+on profile_status.user_id=users.id and users.username=user_login_details.username;
